@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bbf4a1d81ea0c6fe04351d0813b6a3b74984c1a7cbb721ec80be35e5eb87ab67
+-- hash: 69eaa5e14ebf35158f6fa2deccb1cd468c5634317baee9579a102819e8beeaf6
 
 name:           helloworld
 version:        0.1.0.0
@@ -34,9 +34,10 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , containers
+    , here
     , mtl
     , parsec >=3.1 && <4
-    , raw-strings-qq
   default-language: Haskell2010
 
 executable helloworld-exe
@@ -48,10 +49,11 @@ executable helloworld-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers
     , helloworld
+    , here
     , mtl
     , parsec >=3.1 && <4
-    , raw-strings-qq
   default-language: Haskell2010
 
 test-suite helloworld-test
@@ -64,8 +66,10 @@ test-suite helloworld-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers
     , helloworld
+    , here
+    , hspec
     , mtl
     , parsec >=3.1 && <4
-    , raw-strings-qq
   default-language: Haskell2010

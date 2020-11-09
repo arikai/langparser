@@ -21,9 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- containers
 - parsec >= 3.1 && < 4
 - mtl
-- raw-strings-qq
+- here
 
 library:
   source-dirs: src
@@ -48,4 +49,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - hspec
     - helloworld
