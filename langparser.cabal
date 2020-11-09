@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 13c4120a45bc19b8cc435aae67098ec361bbae4c9ad3da924034cc7281bceec0
+-- hash: e3b3245329edacc1caf80e95982cc07c8365f022f0d873b4a65118078771597e
 
 name:           langparser
 version:        0.1.0.0
@@ -19,7 +19,6 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
-    ChangeLog.md
 
 source-repository head
   type: git
