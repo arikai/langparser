@@ -262,6 +262,7 @@ program =
     return (ParseResult (Program (dec ++ calc)) state)
 
 red = "\x001b[31m"
+green = "\x001b[32m"
 yellow = "\x001b[33m"
 bold = "\x001b[1m"
 underline = "\x001b[4m"
@@ -394,7 +395,9 @@ ${fmtExpected msgs}
 parseText source text =
    putStrLn
   . (\case
-        Right(result) -> show result
+        Right(result) ->
+          [i|${bold}${source}${reset}: ${green}Correct${reset}|]
+          -- show result
         Left(error) -> error)
   $ (do
         prog <- parseProgram source text

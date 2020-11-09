@@ -4,16 +4,16 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 69eaa5e14ebf35158f6fa2deccb1cd468c5634317baee9579a102819e8beeaf6
+-- hash: 13c4120a45bc19b8cc435aae67098ec361bbae4c9ad3da924034cc7281bceec0
 
-name:           helloworld
+name:           langparser
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/helloworld#readme>
-homepage:       https://github.com/githubuser/helloworld#readme
-bug-reports:    https://github.com/githubuser/helloworld/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2020 Author name here
+description:    Please see the README on GitHub at <https://github.com/arikai/langparser#readme>
+homepage:       https://github.com/arikai/langparser#readme
+bug-reports:    https://github.com/arikai/langparser/issues
+author:         Yaroslav Rogov
+maintainer:     rogovyaroslav@gmail.com
+copyright:      2020 Yaroslav Rogov
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -23,13 +23,13 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/helloworld
+  location: https://github.com/arikai/langparser
 
 library
   exposed-modules:
       Lib
   other-modules:
-      Paths_helloworld
+      Paths_langparser
   hs-source-dirs:
       src
   build-depends:
@@ -40,36 +40,36 @@ library
     , parsec >=3.1 && <4
   default-language: Haskell2010
 
-executable helloworld-exe
+executable langparser-exe
   main-is: Main.hs
   other-modules:
-      Paths_helloworld
+      Paths_langparser
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , containers
-    , helloworld
     , here
+    , langparser
     , mtl
     , parsec >=3.1 && <4
   default-language: Haskell2010
 
-test-suite helloworld-test
+test-suite langparser-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_helloworld
+      Paths_langparser
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , containers
-    , helloworld
     , here
     , hspec
+    , langparser
     , mtl
     , parsec >=3.1 && <4
   default-language: Haskell2010

@@ -1,3 +1,3 @@
-# Changelog for helloworld
+# Changelog for langparser
 
 ## Unreleased changes
