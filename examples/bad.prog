@@ -1,0 +1,6 @@
+Var a;
+a = 0;
+Var b;
+b = 2;
+
+a = a + b

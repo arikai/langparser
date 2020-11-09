@@ -1,0 +1,9 @@
+Var i inc limit;;;;;
+Var cnt;
+
+i = 0
+inc = 10
+limit = 10
+cnt = 0
+
+WHILE i < limit DO cnt = cnt + inc
