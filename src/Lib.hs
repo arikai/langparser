@@ -22,16 +22,8 @@ module Lib
 
 import System.Environment (getArgs)
 
--- I import qualified so that it's clear which
--- functions are from the parsec library:
-
--- I am the error message infix operator, used later:
-
--- Imported so we can play with applicative things later.
--- not qualified as mostly infix operators we'll be using.
 import Control.Applicative hiding (many, (<|>))
 
--- Get the Identity monad from here:
 import Control.Monad.Identity (Identity)
 import Data.String.Here.Interpolated (i, iTrim)
 import Data.String.Here.Uninterpolated (here, hereLit)
@@ -94,18 +86,6 @@ binop Lesser = \a -> \b -> (boolToInt (a < b))
 binop Greater = \a -> \b -> (boolToInt (a > b))
 binop Equals = \a -> \b -> (boolToInt (a == b))
 
--- <Выражение> ::= <Ун.оп.> <Подвыражение> | <Подвыражение>
--- <Подвыражение> :: = ( <Выражение> ) | <Операнд> | < Подвыражение > <Бин.оп.> <Подвыражение>
--- <Список переменных> ::= <Идент> | <Идент> , <Список переменных>
--- <Объявление переменных> ::= Var <Список переменных>
--- <Присваивание> ::= <Идент> = <Выражение>
--- <Оператор>::=<Присваивание> |<Сложный оператор>
--- <Сложный оператор> ::= <Оператор цикла>
--- <Оператор цикла>:: =WHILE <Выражение> DO <Оператор>
--- <Список операторов> ::= <Оператор> | <Оператор> <Список операторов>
--- <Описание вычислений> ::= <Список операторов>
--- <Программа> ::= <Объявление переменных> <Описание вычислений> .
-
 data Warning = Warning WarningReason SourcePos deriving Show
 
 data WarningReason =
@@ -143,25 +123,20 @@ eol = void <$> many1 (void3 <$> (skipMany newlineLessSpace)
                       <*> lineterm
                       <*> (skipMany newlineLessSpace))
 
--- <Const> ::= <Цифра> <Const> | <Цифра>
 constant :: Parsec String Context Constant
 constant = (Constant . read) <$> (many1 . oneOf $ ['0' .. '9'])
   <?> "numerical constant"
 
--- <Идент> ::= <Буква> <Идент> | <Буква>
 identifier :: Parsec String Context Identifier
 identifier = Identifier <$> (many1 . oneOf $ ['a'..'z'])
   <?> "identifier of alphabetic characters "
 
--- <Ун.оп.> ::= "-"|"not"
 negation = const (Negation) <$> (char '-')
 logicalNot = const (LogicalNot) <$> (string "not")
 
--- unaryOp :: Parsec String () Token
 unaryOp = negation <|> logicalNot
   <?> "unary operation (- or not)"
 
--- <Бин.оп.> ::= "-" | "+" | "*" | "/" |"<"|">"|"=="
 binaryOp :: Parsec String Context BinaryOp
 binaryOp =
   (\case
@@ -175,12 +150,8 @@ binaryOp =
   (choice (map (string) ["-", "+", "*", "/", "<", ">", "=="]))
   <?> "one of binary operations: -, +, *, /, <, >, =="
 
--- <Операнд> ::= <Идент> | <Const>
 operand =
   (Operand) <$> ((OpConstant <$> constant) <|> (OpIdentifier <$> identifier))
-
--- -- <Выражение> ::= <Ун.оп.> <Подвыражение> | <Подвыражение>
--- -- <Подвыражение> :: = ( <Выражение> ) | <Операнд> | < Подвыражение > <Бин.оп.> <Подвыражение>
 
 expr :: Parsec String Context Expression
 expr = binaryAp <|> operand
@@ -213,8 +184,6 @@ declaredIdentifier =
     modifyState (declareVar id pos)
     return id
 
--- <Список переменных> ::= <Идент> | <Идент> , <Список переменных>
--- <Объявление переменных> ::= Var <Список переменных>
 declaration :: Parsec String Context Statement
 declaration = (do
   string "Var"; spaces1
@@ -222,7 +191,6 @@ declaration = (do
   return (Declaration ids)) <?> "variable declaration: Var a b c..."
 
 
--- <Присваивание> ::= <Идент> = <Выражение>
 assignment = (do
   pos <- getPosition
   var <- identifier
@@ -233,9 +201,6 @@ assignment = (do
                        False -> addWarning (Undeclared var) pos c)
   return (Assignment var ex)) <?> "assignment: a = <expr...>"
 
--- -- <Оператор>::=<Присваивание> |<Сложный оператор>
--- -- <Сложный оператор> ::= <Оператор цикла>
--- -- <Оператор цикла>:: =WHILE <Выражение> DO <Оператор>
 operator = (assignment <|> complexOperator)
 complexOperator = cycleOperator
 cycleOperator = (do
@@ -249,9 +214,6 @@ cycleOperator = (do
 line content = (\_ -> \c -> \_ -> c) <$> spaces <*> content <*> eol
 
 data ParseResult = ParseResult Program Context deriving (Show)
--- <Список операторов> ::= <Оператор> | <Оператор> <Список операторов>
--- <Описание вычислений> ::= <Список операторов>
--- <Программа> ::= <Объявление переменных> <Описание вычислений> .
 program :: Parsec String Context ParseResult
 program =
   do
